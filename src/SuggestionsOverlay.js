@@ -75,7 +75,10 @@ class SuggestionsOverlay extends Component {
   }
 
   renderSuggestions() {
-    return Object.values(this.props.suggestions).reduce(
+    const vals = Object.keys(this.props.suggestions).map(function (key) {
+      return this.props.suggestions[key];
+    });
+    return vals.reduce(
       (accResults, { results, queryInfo }) => [
         ...accResults,
         ...results.map((result, index) =>
