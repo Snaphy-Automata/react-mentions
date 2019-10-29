@@ -1,6 +1,6 @@
 import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
-import { defaultStyle } from 'substyle'
+import { defaultStyle } from 'snaphy-substyle'
 
 import { countSuggestions } from './utils'
 import Suggestion from './Suggestion'

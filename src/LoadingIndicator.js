@@ -1,5 +1,5 @@
 import React from 'react'
-import substyle from 'substyle'
+import substyle from 'snaphy-substyle'
 
 function LoadingIndicator({ style }) {
   const spinnerStyle = style('spinner')
