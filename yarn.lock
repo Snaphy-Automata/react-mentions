@@ -8523,10 +8523,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-snaphy-substyle@^0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/snaphy-substyle/-/snaphy-substyle-0.0.0.tgz#401bfa4520d81b542d5f51d60f2e3a33743cf55a"
-  integrity sha512-W+/sfFj7G2JeaXxJTyYXMAUQdAdsdKV5NwwcwkCL4ySxwC8Tnaq+Ku4cwgKRVQFBEYQfLmWglSBLcoE66a5vbg==
+snaphy-substyle@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/snaphy-substyle/-/snaphy-substyle-0.0.3.tgz#3ff3f23c455133e1d692135df984b705c441f5b6"
+  integrity sha512-EaeCI/Aq8y6AgXvBW8ZA9llF4e9Xqb7kNYDTu9ucHte2h/u0yH58zYk5SynBZ2y+d1llOzugsEeWP19tpmXMHQ==
   dependencies:
     "@babel/runtime" "^7.3.4"
     hoist-non-react-statics "^3.1.0"
