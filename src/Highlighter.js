@@ -1,13 +1,13 @@
 import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
-import { defaultStyle } from 'snaphy-substyle'
-import isEqual from 'lodash/isEqual'
-import isNumber from 'lodash/isNumber'
+import { defaultStyle } from 'substyle'
 
 import {
   iterateMentionsMarkup,
   mapPlainTextIndex,
   readConfigFromChildren,
+  isObjectEqual,
+  isNumber,
 } from './utils'
 
 const _generateComponentKey = (usedKeys, id) => {
@@ -66,7 +66,7 @@ class Highlighter extends Component {
 
     let { lastPosition } = this.state
 
-    if (isEqual(lastPosition, position)) {
+    if (isObjectEqual(lastPosition, position)) {
       return
     }
 
@@ -190,7 +190,7 @@ class Highlighter extends Component {
     return (
       <span
         {...this.props.style('caret')}
-        ref={el => {
+        ref={(el) => {
           this.caretRef = el
         }}
         key="caret"
@@ -221,7 +221,7 @@ const styled = defaultStyle(
       visibility: 'hidden',
     },
   },
-  props => ({
+  (props) => ({
     '&singleLine': props.singleLine,
   })
 )

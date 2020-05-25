@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { defaultStyle } from 'snaphy-substyle'
-import omit from 'lodash/omit'
-import keys from 'lodash/keys'
+import { defaultStyle } from 'substyle'
 
-import { getSubstringIndex } from './utils'
+import { getSubstringIndex, keys, omit } from './utils'
 
 class Suggestion extends Component {
   static propTypes = {
@@ -94,7 +92,7 @@ const styled = defaultStyle(
   {
     cursor: 'pointer',
   },
-  props => ({ '&focused': props.focused })
+  (props) => ({ '&focused': props.focused })
 )
 
 export default styled(Suggestion)

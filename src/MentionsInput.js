@@ -12,20 +12,19 @@ import {
   mapPlainTextIndex,
   readConfigFromChildren,
   spliceString,
+  isObjectEqual,
+  isNumber,
+  keys,
+  omit,
 } from './utils'
 
 import Highlighter from './Highlighter'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import SuggestionsOverlay from './SuggestionsOverlay'
-import { defaultStyle } from 'snaphy-substyle'
-import isEqual from 'lodash/isEqual'
-import isNumber from 'lodash/isNumber'
-import keys from 'lodash/keys'
-import omit from 'lodash/omit'
-import values from 'lodash/values'
+import { defaultStyle } from 'substyle'
 
-export const makeTriggerRegex = function (trigger, options = {}) {
+export const makeTriggerRegex = function(trigger, options = {}) {
   if (trigger instanceof RegExp) {
     return trigger
   } else {
@@ -36,16 +35,16 @@ export const makeTriggerRegex = function (trigger, options = {}) {
     // second capture group is for extracting the search query
     return new RegExp(
       `(?:^|\\s)(${escapedTriggerChar}([^${
-      allowSpaceInQuery ? '' : '\\s'
+        allowSpaceInQuery ? '' : '\\s'
       }${escapedTriggerChar}]*))$`
     )
   }
 }
 
-const getDataProvider = function (data, ignoreAccents) {
+const getDataProvider = function(data, ignoreAccents) {
   if (data instanceof Array) {
     // if data is an array, create a function to query that
-    return function (query, callback) {
+    return function(query, callback) {
       const results = []
       for (let i = 0, l = data.length; i < l; ++i) {
         const display = data[i].display || data[i].id
@@ -174,7 +173,7 @@ class MentionsInput extends React.Component {
   render() {
     return (
       <div
-        ref={el => {
+        ref={(el) => {
           this.containerRef = el
         }}
         {...this.props.style}
@@ -185,7 +184,7 @@ class MentionsInput extends React.Component {
     )
   }
 
-  getInputProps = isTextarea => {
+  getInputProps = (isTextarea) => {
     let { readOnly, disabled, style } = this.props
 
     // pass all props that we don't use through to the input control
@@ -224,15 +223,15 @@ class MentionsInput extends React.Component {
     )
   }
 
-  renderInput = props => {
+  renderInput = (props) => {
     return <input type="text" ref={this.setInputRef} {...props} />
   }
 
-  renderTextarea = props => {
+  renderTextarea = (props) => {
     return <textarea ref={this.setInputRef} {...props} />
   }
 
-  setInputRef = el => {
+  setInputRef = (el) => {
     this.inputRef = el
     const { inputRef } = this.props
     if (typeof inputRef === 'function') {
@@ -254,13 +253,13 @@ class MentionsInput extends React.Component {
         position={this.state.suggestionsPosition}
         focusIndex={this.state.focusIndex}
         scrollFocusedIntoView={this.state.scrollFocusedIntoView}
-        ref={el => {
+        ref={(el) => {
           this.suggestionsRef = el
         }}
         suggestions={this.state.suggestions}
         onSelect={this.addMention}
         onMouseDown={this.handleSuggestionsMouseDown}
-        onMouseEnter={focusIndex =>
+        onMouseEnter={(focusIndex) =>
           this.setState({
             focusIndex,
             scrollFocusedIntoView: false,
@@ -282,13 +281,13 @@ class MentionsInput extends React.Component {
     }
   }
 
-  renderHighlighter = inputStyle => {
+  renderHighlighter = (inputStyle) => {
     const { selectionStart, selectionEnd } = this.state
     const { singleLine, children, value, style } = this.props
 
     return (
       <Highlighter
-        ref={el => {
+        ref={(el) => {
           this.highlighterRef = el
         }}
         style={style('highlighter')}
@@ -299,7 +298,7 @@ class MentionsInput extends React.Component {
           start: selectionStart,
           end: selectionEnd,
         }}
-        onCaretPositionChange={position =>
+        onCaretPositionChange={(position) =>
           this.setState({ caretPosition: position })
         }
       >
@@ -454,7 +453,7 @@ class MentionsInput extends React.Component {
   }
 
   // Handle input element's change event
-  handleChange = ev => {
+  handleChange = (ev) => {
     // if we are inside iframe, we need to find activeElement within its contentDocument
     const currentDocument =
       (document.activeElement && document.activeElement.contentDocument) ||
@@ -523,7 +522,7 @@ class MentionsInput extends React.Component {
   }
 
   // Handle input element's select event
-  handleSelect = ev => {
+  handleSelect = (ev) => {
     // keep track of selection range / caret position
     this.setState({
       selectionStart: ev.target.selectionStart,
@@ -547,7 +546,7 @@ class MentionsInput extends React.Component {
     this.props.onSelect(ev)
   }
 
-  handleKeyDown = ev => {
+  handleKeyDown = (ev) => {
     // do not intercept key events if the suggestions overlay is not shown
     const suggestionsCount = countSuggestions(this.state.suggestions)
 
@@ -558,7 +557,7 @@ class MentionsInput extends React.Component {
       return
     }
 
-    if (values(KEY).indexOf(ev.keyCode) >= 0) {
+    if (Object.values(KEY).indexOf(ev.keyCode) >= 0) {
       ev.preventDefault()
     }
 
@@ -589,7 +588,7 @@ class MentionsInput extends React.Component {
     }
   }
 
-  shiftFocus = delta => {
+  shiftFocus = (delta) => {
     const suggestionsCount = countSuggestions(this.state.suggestions)
 
     this.setState({
@@ -601,14 +600,14 @@ class MentionsInput extends React.Component {
 
   selectFocused = () => {
     const { suggestions, focusIndex } = this.state
-    const vals = Object.keys(suggestions).map(function (key) {
-      return suggestions[key];
-    });
+    const vals = Object.keys(suggestions).map(function(key) {
+      return suggestions[key]
+    })
 
     const { result, queryInfo } = vals.reduce(
       (acc, { results, queryInfo }) => [
         ...acc,
-        ...results.map(result => ({ result, queryInfo })),
+        ...results.map((result) => ({ result, queryInfo })),
       ],
       []
     )[focusIndex]
@@ -620,7 +619,7 @@ class MentionsInput extends React.Component {
     })
   }
 
-  handleBlur = ev => {
+  handleBlur = (ev) => {
     const clickedSuggestion = this._suggestionsMouseDown
     this._suggestionsMouseDown = false
 
@@ -640,7 +639,7 @@ class MentionsInput extends React.Component {
     this.props.onBlur(ev, clickedSuggestion)
   }
 
-  handleSuggestionsMouseDown = ev => {
+  handleSuggestionsMouseDown = (ev) => {
     this._suggestionsMouseDown = true
   }
 
@@ -720,11 +719,11 @@ class MentionsInput extends React.Component {
       if (
         allowSuggestionsAboveCursor &&
         viewportRelative.top -
-        highlighter.scrollTop +
-        suggestions.offsetHeight >
-        viewportHeight &&
+          highlighter.scrollTop +
+          suggestions.offsetHeight >
+          viewportHeight &&
         suggestions.offsetHeight <
-        caretOffsetParentRect.top - caretHeight - highlighter.scrollTop
+          caretOffsetParentRect.top - caretHeight - highlighter.scrollTop
       ) {
         position.top = top - suggestions.offsetHeight - caretHeight
       } else {
@@ -732,7 +731,7 @@ class MentionsInput extends React.Component {
       }
     }
 
-    if (isEqual(position, this.state.suggestionsPosition)) {
+    if (isObjectEqual(position, this.state.suggestionsPosition)) {
       return
     }
 
@@ -977,7 +976,7 @@ class MentionsInput extends React.Component {
 
   isLoading = () => {
     let isLoading = false
-    React.Children.forEach(this.props.children, function (child) {
+    React.Children.forEach(this.props.children, function(child) {
       isLoading = isLoading || (child && child.props.isLoading)
     })
     return isLoading
@@ -1030,9 +1029,9 @@ const styled = defaultStyle(
         // fix weird textarea padding in mobile Safari (see: http://stackoverflow.com/questions/6890149/remove-3-pixels-in-ios-webkit-textarea)
         ...(isMobileSafari
           ? {
-            marginTop: 1,
-            marginLeft: -3,
-          }
+              marginTop: 1,
+              marginLeft: -3,
+            }
           : null),
       },
     },
