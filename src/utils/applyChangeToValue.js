@@ -50,7 +50,7 @@ const applyChangeToValue = (
   let willRemoveMention =
     controlSpliceStart === null || controlSpliceEnd === null
 
-  let newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
+  let newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, '')
 
   if (!willRemoveMention) {
     // test for auto-completion changes
