@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { defaultStyle } from 'snaphy-substyle'
+import { defaultStyle } from 'substyle'
 
 const styled = defaultStyle({
   fontWeight: 'inherit',

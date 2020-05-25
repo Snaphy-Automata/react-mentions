@@ -1,6 +1,6 @@
 import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
-import { defaultStyle } from 'snaphy-substyle'
+import { defaultStyle } from 'substyle'
 
 import { countSuggestions } from './utils'
 import Suggestion from './Suggestion'
@@ -61,7 +61,7 @@ class SuggestionsOverlay extends Component {
     return (
       <div {...style} onMouseDown={onMouseDown}>
         <ul
-          ref={el => {
+          ref={(el) => {
             this.suggestionsRef = el
           }}
           {...style('list')}
@@ -75,10 +75,10 @@ class SuggestionsOverlay extends Component {
   }
 
   renderSuggestions() {
-    const suggestions = this.props.suggestions;
-    const vals = Object.keys(suggestions).map(function (key) {
-      return suggestions[key];
-    });
+    const suggestions = this.props.suggestions
+    const vals = Object.keys(suggestions).map(function(key) {
+      return suggestions[key]
+    })
     return vals.reduce(
       (accResults, { results, queryInfo }) => [
         ...accResults,

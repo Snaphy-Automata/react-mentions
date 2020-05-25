@@ -1,6 +1,6 @@
 {
   "name": "snaphy-react-mentions",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "React mentions input",
   "main": "dist/snaphy-react-mentions.cjs.js",
   "module": "dist/snaphy-react-mentions.esm.js",
@@ -85,7 +85,7 @@
     "@babel/runtime": "7.4.5",
     "invariant": "^2.2.4",
     "prop-types": "^15.5.8",
-    "snaphy-substyle": "^0.0.3"
+    "substyle": "^6.3.1"
   },
   "peerDependencies": {
     "react": "16.x",
